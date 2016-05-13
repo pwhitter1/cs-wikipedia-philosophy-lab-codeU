@@ -20,10 +20,14 @@ public class WikiFetcher {
 	 * Fetches and parses a URL string, returning a list of paragraph elements.
 	 *
 	 * @param url
+	 * @param elementById
+	 * @param contentSelect
 	 * @return
 	 * @throws IOException
 	 */
-	public Elements fetchWikipedia(String url) throws IOException {
+		
+	//Modified from the original - added additional parameters	
+	public Elements fetchWikipedia(String url, String elementById, String contentSelect) throws IOException {
 		sleepIfNeeded();
 
 		// download and parse the document
@@ -31,12 +35,13 @@ public class WikiFetcher {
 		Document doc = conn.get();
 
 		// select the content text and pull out the paragraphs.
-		Element content = doc.getElementById("mw-content-text");
+		Element content = doc.getElementById(elementById);
 
 		// TODO: avoid selecting paragraphs from sidebars and boxouts
-		Elements paras = content.select("p");
+		Elements paras = content.select(contentSelect);
 		return paras;
 	}
+	
 
 	/**
 	 * Reads the contents of a Wikipedia page from src/resources.
